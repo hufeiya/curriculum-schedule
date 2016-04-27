@@ -1,0 +1,9 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="week_button_height">160px</dimen>
+    <dimen name="pitch_number_width">90px</dimen>
+    <dimen name="week_button_width">160px</dimen>
+    <dimen name="image_margin">5dp</dimen>
+</resources>

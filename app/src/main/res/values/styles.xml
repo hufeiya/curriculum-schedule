@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="free_button">
+        <item name="android:textColor">@color/dodgerblue</item>
+        <item name="android:background">@drawable/button_boder</item>
+    </style>
+    
+    <style name="week_button" parent="free_button">
+        <item name="android:layout_width">@dimen/week_button_width</item>
+        <item name="android:layout_height">@dimen/week_button_height</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="pitch_number_button" parent="free_button">
+        <item name="android:layout_width">@dimen/pitch_number_width</item>
+        <item name="android:layout_height">@dimen/week_button_height</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="empty_button">
+        <item name="android:background">@drawable/empty_button_boder</item>
+        <item name="android:layout_width">@dimen/week_button_width</item>
+        <item name="android:layout_height">@dimen/week_button_height</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="course_info_text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
+    <style name="MyAnimation.Window" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
+    </style>
+    <style name="MyCustomTheme" parent="@android:style/Theme.Panel">
+        <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+    </style>
+
+</resources>
