@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int COLUM_NUM = R.id.scrollView_main;
     private List<LinearLayout> linearLayoutList = new ArrayList<>();
     private static final int PITCH_NUMBER = 12; //number of course in 1 day.
+    private static final String SHARED_PREFERENCES_NAME = "courses";
     @BindView(R.id.fab) FloatingActionButton fab;
 
     @Override
@@ -57,14 +58,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layout.setOrientation(LinearLayout.VERTICAL);
             for(int j = 0;j < PITCH_NUMBER;j++){
                 Button button = (Button)getLayoutInflater().inflate(R.layout.bt_templete,null);
-                //Button button = new Button(new ContextThemeWrapper(MainActivity.this, R.style.empty_button));
-
-                //button.setText("test");
                 button.setTag(ROW_NUM,j);
                 button.setTag(COLUM_NUM,i);
                 button.setHeight(160);
                 button.setOnClickListener(this);
-                button.setText(String.valueOf(j));
+                //button.setText(String.valueOf(j));//Just for debug
                 layout.addView(button);
                 buttons[j][i] = button;
 
@@ -73,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             frameLinearLayout.addView(layout);
         }
         initTheSyncScrollView();
+        initExistedCourses();
     }
 
     private void initTheSyncScrollView(){
@@ -83,12 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initExistedCourses(){
-        SharedPreferences preferences = getSharedPreferences("courses",MODE_PRIVATE);
-        String jsonarray = preferences.getString("courses",null);
-        if(jsonarray != null){
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        String jsonArray = preferences.getString(SHARED_PREFERENCES_NAME,null);
+        if(jsonArray != null){
             Gson gson = new Gson();
             Type type = new TypeToken<List<Course>>(){}.getType();
-            courseList = gson.fromJson(jsonarray,type);
+            courseList = gson.fromJson(jsonArray,type);
+            showCourses();
         }
 
     }
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("fuck","update course msg received!!!");
                 insertCourseToCourseList(event.jsonCourse);
                 showCourses();
+                saveCourseList();
                 break;
         }
     }
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if( ! haveCourse[row][colum]){
                 Button button = buttons[row][colum];
                 int courseLen = course.getPitchNumbers().get(1) - row;
-                button.setHeight(button.getHeight()*courseLen);
+                button.setHeight(160*courseLen);
                 button.setText(course.getName() + "@" + course.getRoom());
                 GradientDrawable gd = new GradientDrawable();
                 gd.setColor(getResources().getColor(R.color.green)); // Changes this drawbale to use a single color instead of a gradient
@@ -185,6 +186,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void saveCourseList(){
+        if(courseList == null || courseList.size() == 0){
+            return;
+        }
+        Type type = new TypeToken<List<Course>>(){}.getType();
+        String jsonArray = new Gson().toJson(courseList,type);
+        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE).edit();
+        editor.putString(SHARED_PREFERENCES_NAME,jsonArray).apply();
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -193,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
         super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }
