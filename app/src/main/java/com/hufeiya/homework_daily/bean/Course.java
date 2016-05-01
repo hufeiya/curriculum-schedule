@@ -83,4 +83,9 @@ public class Course {
     public void setStartEndTimes(ArrayList<Time> startEndTimes) {
         this.startEndTimes = startEndTimes;
     }
+
+    @Override
+    public String toString() {
+        return id + "  " + name + "  " + room  + "  " + teacher + "  " + week  + "  " + pitchNumbers.get(0) + "  " + pitchNumbers.get(1);
+    }
 }

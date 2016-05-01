@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:id="@+id/pic_relative_layout"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/girl_22"
+            android:paddingTop="@dimen/activity_horizontal_margin_8"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_22" />
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_bili_logo"
+            android:layout_centerHorizontal="true" />
+        <ImageView
+            android:id="@+id/girl_33"
+            android:paddingTop="@dimen/activity_horizontal_margin_8"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_33"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_tv_userId"
+        android:layout_width="fill_parent"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:paddingLeft="16.0dip"
+        android:paddingRight="16.0dip"
+        android:layout_below="@id/pic_relative_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.0dip"
+            android:text="学        号"
+            android:textColor="@color/black"
+            android:textSize="18.0sp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100.0dip"
+            android:singleLine="true"
+            android:textSize="18.0sp"
+            android:text="@string/test_student_id"
+            android:inputType="number"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:paddingLeft="16.0dip"
+        android:paddingRight="16.0dip"
+        android:layout_below="@id/rl_tv_userId">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.0dip"
+            android:text="密        码"
+            android:textColor="@color/black"
+            android:textSize="18.0sp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100.0dip"
+            android:text="@string/text_password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="18.0sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tv_year"
+        android:layout_width="fill_parent"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:paddingLeft="16.0dip"
+        android:paddingRight="16.0dip"
+        android:layout_below="@id/rl_tv_password">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.0dip"
+            android:text="年        份"
+            android:textColor="@color/black"
+            android:textSize="18.0sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_year"
+            android:layout_width="fill_parent"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100.0dip"
+            android:singleLine="true"
+            android:textSize="18.0sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tv_term"
+        android:layout_width="fill_parent"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:paddingLeft="16.0dip"
+        android:paddingRight="16.0dip"
+        android:layout_below="@id/rl_tv_year">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.0dip"
+            android:text="学        期"
+            android:textColor="@color/black"
+            android:textSize="18.0sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_term"
+            android:layout_width="fill_parent"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100.0dip"
+            android:singleLine="true"
+            android:textSize="18.0sp"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:paddingLeft="16.0dip"
+        android:paddingRight="16.0dip"
+        android:layout_below="@id/rl_tv_term">
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="fill_parent"
+            android:layout_height="44.0dip"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_blue"
+            android:shadowDx="0.0"
+            android:shadowDy="-1.0"
+            android:shadowRadius="1.0"
+            android:text="一键查询"
+            android:textColor="@color/white"
+            android:textSize="18.0sp"
+            android:textStyle="normal"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.hufeiya.homework_daily;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import com.google.gson.reflect.TypeToken;
 import com.hufeiya.homework_daily.bean.Course;
 import com.hufeiya.homework_daily.bean.MessageEvent;
 import com.hufeiya.homework_daily.customview.SyncScrollView;
+import com.hufeiya.homework_daily.utils.Constant;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import java.lang.reflect.Type;
@@ -35,11 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public List<Course> courseList;
     private boolean [][]haveCourse = new boolean[12][7];
     private Button [][] buttons = new Button[12][7];
-    private static final int ROW_NUM = R.id.frame_linear_layout;
-    private static final int COLUM_NUM = R.id.scrollView_main;
+
     private List<LinearLayout> linearLayoutList = new ArrayList<>();
-    private static final int PITCH_NUMBER = 12; //number of course in 1 day.
-    private static final String SHARED_PREFERENCES_NAME = "courses";
+
     @BindView(R.id.fab) FloatingActionButton fab;
 
     @Override
@@ -48,7 +49,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         frameLinearLayout = (LinearLayout)findViewById(R.id.frame_linear_layout);
+        if( ! isLogin()) {
+            Intent intent = new Intent();
+            intent.setClass(this, LoginActivity.class);
+            startActivityForResult(intent,0);
+        }
         init();
+
     }
 
     private void init(){
@@ -56,10 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LinearLayout layout = new LinearLayout(this);
             layout.setLayoutParams(new LinearLayout.LayoutParams(160, ViewGroup.LayoutParams.WRAP_CONTENT));
             layout.setOrientation(LinearLayout.VERTICAL);
-            for(int j = 0;j < PITCH_NUMBER;j++){
+            for(int j = 0;j < Constant.PITCH_NUMBER;j++){
                 Button button = (Button)getLayoutInflater().inflate(R.layout.bt_templete,null);
-                button.setTag(ROW_NUM,j);
-                button.setTag(COLUM_NUM,i);
+                button.setTag(Constant.ROW_NUM,j);
+                button.setTag(Constant.COLUM_NUM,i);
                 button.setHeight(160);
                 button.setOnClickListener(this);
                 //button.setText(String.valueOf(j));//Just for debug
@@ -82,15 +89,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initExistedCourses(){
-        SharedPreferences preferences = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE);
-        String jsonArray = preferences.getString(SHARED_PREFERENCES_NAME,null);
+        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_PREFERENCES_NAME,MODE_PRIVATE);
+        String jsonArray = preferences.getString(Constant.SHARED_PREFERENCES_NAME,null);
         if(jsonArray != null){
             Gson gson = new Gson();
             Type type = new TypeToken<List<Course>>(){}.getType();
             courseList = gson.fromJson(jsonArray,type);
+            Log.d("fuck",courseList.toString());
             showCourses();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case RESULT_OK:
+                Log.d("fuck","Activity back!");
+                init();
+                break;
+        }
+    }
+
+    private boolean isLogin(){
+        SharedPreferences preferences = getSharedPreferences(Constant.SHARED_PREFERENCES_IS_LOGIN,MODE_PRIVATE);
+        return preferences.getBoolean(Constant.SHARED_PREFERENCES_IS_LOGIN,false);
     }
 
     private static int dip2px(Context context, float dipValue) {
@@ -100,9 +124,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Log.d("fuck","" + v.getTag(ROW_NUM) + "  " + v.getTag(COLUM_NUM));
-        int row = (Integer) v.getTag(ROW_NUM);
-        int colum = (Integer) v.getTag(COLUM_NUM);
+        Log.d("fuck","" + v.getTag(Constant.ROW_NUM) + "  " + v.getTag(Constant.COLUM_NUM));
+        int row = (Integer) v.getTag(Constant.ROW_NUM);
+        int colum = (Integer) v.getTag(Constant.COLUM_NUM);
         if(haveCourse[row][colum]){
 
         }else{
@@ -143,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int courseLen = course.getPitchNumbers().get(1) - row;
         boolean courseInterupted = haveCourse[row][colum];
         for(int i = row + 1;i < row+courseLen;i++){
-            if( i >= PITCH_NUMBER || haveCourse[i][colum]){
+            if( i >= Constant.PITCH_NUMBER || haveCourse[i][colum]){
                 courseInterupted = true;
                 break;
             }
@@ -192,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Type type = new TypeToken<List<Course>>(){}.getType();
         String jsonArray = new Gson().toJson(courseList,type);
-        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_NAME,MODE_PRIVATE).edit();
-        editor.putString(SHARED_PREFERENCES_NAME,jsonArray).apply();
+        SharedPreferences.Editor editor = getSharedPreferences(Constant.SHARED_PREFERENCES_NAME,MODE_PRIVATE).edit();
+        editor.putString(Constant.SHARED_PREFERENCES_NAME,jsonArray).apply();
 
     }
 

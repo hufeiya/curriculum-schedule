@@ -6,4 +6,5 @@
     <dimen name="pitch_number_width">90px</dimen>
     <dimen name="week_button_width">160px</dimen>
     <dimen name="image_margin">5dp</dimen>
+    <dimen name="activity_horizontal_margin_8">8dp</dimen>
 </resources>
