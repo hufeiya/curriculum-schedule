@@ -2,4 +2,8 @@
     <string name="app_name">HomeWork-Daily</string>
     <string name="test_student_id">201226630205</string>
     <string name="text_password">4241799</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

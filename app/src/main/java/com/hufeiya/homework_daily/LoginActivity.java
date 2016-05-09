@@ -235,6 +235,7 @@ public class LoginActivity extends AppCompatActivity {
                                     for(Course course : courseList){
                                         Log.d("fucc",course.toString());
                                         saveCourseList();
+                                        setResult(RESULT_OK);
                                         finish();
                                     }
 

@@ -11,7 +11,7 @@ public interface Constant {
                      "2012/2013","2013/2014","2014/2015","2015/2016","2016/2017",
                      "2017/2018","2018/2019"};
 
-    String[] term = {"第一学期","第二学期","全年"};
+    String[] term = {"第一学期","第二学期"};
 
     String URL_LOGIN = "http://www.ycjw.zjut.edu.cn/logon.aspx";
 

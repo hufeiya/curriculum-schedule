@@ -6,12 +6,17 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,16 +37,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private LinearLayout frameLinearLayout;
     public List<Course> courseList;
-    private boolean [][]haveCourse = new boolean[12][7];
-    private Button [][] buttons = new Button[12][7];
+    private boolean [][]haveCourse ;
+    private Button [][] buttons ;
 
     private List<LinearLayout> linearLayoutList = new ArrayList<>();
 
-    @BindView(R.id.fab) FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +54,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         frameLinearLayout = (LinearLayout)findViewById(R.id.frame_linear_layout);
         if( ! isLogin()) {
-            Intent intent = new Intent();
-            intent.setClass(this, LoginActivity.class);
-            startActivityForResult(intent,0);
+            startLoginActivity();
         }
-        init();
+        else{
+            init();
+        }
 
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void startLoginActivity(){
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
+        startActivityForResult(intent,0);
     }
 
     private void init(){
+        linearLayoutList.clear();
+        frameLinearLayout.removeAllViews();
+        if (courseList != null) courseList.clear();
+        haveCourse = new boolean[12][7];
+        buttons = new Button[12][7];
+
         for(int i = 0;i < 7;i++){
             LinearLayout layout = new LinearLayout(this);
             layout.setLayoutParams(new LinearLayout.LayoutParams(160, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -104,9 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        Log.d("fuck","result COde:" +resultCode);
+        switch (resultCode){
             case RESULT_OK:
                 Log.d("fuck","Activity back!");
+                setLogined();
                 init();
                 break;
         }
@@ -115,6 +141,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isLogin(){
         SharedPreferences preferences = getSharedPreferences(Constant.SHARED_PREFERENCES_IS_LOGIN,MODE_PRIVATE);
         return preferences.getBoolean(Constant.SHARED_PREFERENCES_IS_LOGIN,false);
+    }
+
+    private void setLogined(){
+        SharedPreferences.Editor editor = getSharedPreferences(Constant.SHARED_PREFERENCES_IS_LOGIN,MODE_PRIVATE).edit();
+        editor.putBoolean(Constant.SHARED_PREFERENCES_IS_LOGIN, true).apply();
+
+    }
+
+    private void setLogout(){
+        SharedPreferences.Editor editor = getSharedPreferences(Constant.SHARED_PREFERENCES_IS_LOGIN,MODE_PRIVATE).edit();
+        editor.putBoolean(Constant.SHARED_PREFERENCES_IS_LOGIN, false).apply();
     }
 
     private static int dip2px(Context context, float dipValue) {
@@ -231,5 +268,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }else if (id == R.id.quit){
+            setLogout();
+            startLoginActivity();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
