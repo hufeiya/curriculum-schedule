@@ -305,20 +305,20 @@ public class LoginActivity extends AppCompatActivity {
         if (flg != null) {
             if (flg.equals("1")) {
                 new AlertDialog.Builder(LoginActivity.this)
-                        .setTitle("绩点宝提示").setMessage("学号或密码错误，请重新输入！")
+                        .setTitle("提示").setMessage("学号或密码错误，请重新输入！")
                         .setPositiveButton("确定", null).show();
                 return;
             }
 
             if (flg.equals("2")) {
                 new AlertDialog.Builder(LoginActivity.this)
-                        .setTitle("绩点宝提示").setMessage("原创系统出故障了，请稍后重试！")
+                        .setTitle("提示").setMessage("原创系统出故障了，请稍后重试！")
                         .setPositiveButton("确定", null).show();
             }
 
             if (flg.equals("3")) {
                 new AlertDialog.Builder(LoginActivity.this)
-                        .setTitle("绩点宝提示").setMessage("该学期目前没有你的课表！")
+                        .setTitle("提示").setMessage("该学期目前没有你的课表！")
                         .setPositiveButton("确定", null).show();
             }
         }
